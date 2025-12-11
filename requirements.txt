@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+python-multipart
+pillow
+transformers==4.37.2
+accelerate
+numpy
+opencv-python-headless
+pdf2image
+sentencepiece==0.1.99

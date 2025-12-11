@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Handwritten OCR Form</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #e8f0ff;
+            padding: 40px;
+        }
+
+        .form-box {
+            max-width: 700px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0px 4px 12px rgba(0,0,0,0.2);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 18px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            margin-top: 5px;
+            border: 1px solid #bbb;
+            border-radius: 6px;
+        }
+
+        button {
+            margin-top: 25px;
+            padding: 14px;
+            width: 100%;
+            font-size: 16px;
+            background: #0056e0;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #003fa6;
+        }
+
+        .section {
+            margin-top: 35px;
+            padding: 20px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+        }
+
+        pre {
+            background: #1e1e1e;
+            color: #0f0;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="form-box">
+    <h2>Upload Handwritten Form</h2>
+    <input type="file" id="fileInput" accept="image/*,application/pdf">
+    <button onclick="extract()">Extract Data</button>
+</div>
+
+<div id="generatedForm"></div>
+
+<div class="section">
+    <h3>Confidence Score Output</h3>
+    <pre id="scoreOutput">Waiting...</pre>
+</div>
+
+<script>
+let extracted = {};
+
+async function extract() {
+    const file = document.getElementById("fileInput").files[0];
+    if (!file) return alert("Select file!");
+
+    let formData = new FormData();
+    formData.append("file", file);
+
+    let res = await fetch("/extract", {
+        method: "POST",
+        body: formData
+    });
+
+    let data = await res.json();
+    extracted = data.fields;
+
+    generateForm(extracted);
+}
+
+function generateForm(fields) {
+    let html = `
+        <div class="form-box">
+        <h2>Extracted Registration Form</h2>
+        <form id="finalForm">`;
+
+    Object.keys(fields).forEach(key => {
+        html += `
+            <label>${key.replaceAll("_", " ").toUpperCase()}</label>
+            <input type="text" name="${key}" value="${fields[key]}">
+        `;
+    });
+
+    html += `
+            <button type="button" onclick="submitForm()">Submit & Compare</button>
+        </form>
+        </div>
+    `;
+
+    document.getElementById("generatedForm").innerHTML = html;
+}
+
+async function submitForm() {
+    let form = document.getElementById("finalForm");
+    let formData = {};
+
+    Array.from(form.elements).forEach(el => {
+        if (el.name) formData[el.name] = el.value;
+    });
+
+    let res = await fetch("/compare", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+            extracted: extracted,
+            submitted: formData
+        })
+    });
+
+    let data = await res.json();
+    document.getElementById("scoreOutput").textContent =
+        JSON.stringify(data, null, 2);
+}
+</script>
+
+</body>
+</html>

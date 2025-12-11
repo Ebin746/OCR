@@ -1,0 +1,101 @@
+# -------------------------------
+# Python
+# -------------------------------
+__pycache__/
+*.py[cod]
+*.so
+*.pyo
+*.pyd
+*.pdb
+
+# Byte-compiled / optimized / DLL files
+*.pyc
+*.pyd
+*.pyo
+
+# Virtual environments
+venv/
+env/
+.venv/
+ENV/
+
+# pip cache
+pip-wheel-metadata/
+pip-log.txt
+
+# Jupyter
+.ipynb_checkpoints/
+
+# -------------------------------
+# FastAPI / Uvicorn
+# -------------------------------
+*.db
+*.sqlite
+*.sqlite3
+logs/
+*.log
+
+# -------------------------------
+# OCR Model / Torch Caches
+# -------------------------------
+cache/
+models/
+*.pt
+*.pth
+*.bin
+*.h5
+
+# HuggingFace model cache
+~/.cache/huggingface/
+huggingface/
+
+# Torch cache
+~/.cache/torch/
+
+# EasyOCR model downloads
+~/.EasyOCR/
+easyocr/
+
+# -------------------------------
+# Image / PDF Uploads (avoid committing)
+# -------------------------------
+uploads/
+*.png
+*.jpg
+*.jpeg
+*.pdf
+*.tiff
+
+# Temporary output files
+output/
+temp/
+tmp/
+
+# -------------------------------
+# Environment / OS junk files
+# -------------------------------
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# -------------------------------
+# IDE settings
+# -------------------------------
+.vscode/
+.idea/
+*.iml
+
+# -------------------------------
+# Node (if your static UI uses npm)
+# -------------------------------
+node_modules/
+dist/
+build/
+
+# -------------------------------
+# Project artifacts (optional)
+# -------------------------------
+*.json
+*.csv
+*.xlsx
+exported_results/

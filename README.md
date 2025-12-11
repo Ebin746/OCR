@@ -141,25 +141,6 @@ Compares extracted vs submitted fields and returns confidence score.
 
 ---
 
-## 📦 Why `app.` is required in imports?
-
-Because `app/` is the root package.
-Python requires full paths like:
-
-```python
-from app.ocr.extractor import ocr_page
-```
-
-This ensures reliable imports when running FastAPI or Uvicorn.
-
----
-
-## 🗂 Why every folder needs `__init__.py`?
-
-`__init__.py` turns folders into Python packages.
-Without it, Python **cannot import** modules inside them.
-
----
 
 ## 🔮 Future Enhancements
 

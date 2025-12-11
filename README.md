@@ -171,11 +171,4 @@ Without it, Python **cannot import** modules inside them.
 
 ---
 
-## 🧑‍💻 Author
 
-**Ebin Amson**
-
----
-
-Just tell me!
-```
